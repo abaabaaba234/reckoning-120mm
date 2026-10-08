@@ -197,11 +197,37 @@ def main():
     print('PASS unsupported build');menu_case()
     from provider_checks import run
     provider=run(Scenario)
-    sys.path.insert(0,str(ROOT/'tools'));from build import patch,murmur64,RESOURCE
-    archive=patch(SOURCE);assert struct.unpack_from('<Q',archive,104)[0]==murmur64(RESOURCE.encode())
-    assert archive[200:200+len(SOURCE)]==SOURCE and SOURCE.startswith(b'-- HD2-Addon: '+RESOURCE.encode())
+    sys.path.insert(0,str(ROOT/'tools'));from build import patch,murmur64,RESOURCE,ems_package
+    archive=patch(SOURCE)
+    magic,nt,nf,_=struct.unpack_from('<4I',archive)
+    assert (magic,nt,nf)==(0xf0000011,2,2)
+    types={struct.unpack_from('<Q',archive,72+i*32+8)[0]:struct.unpack_from('<Q',archive,72+i*32+16)[0] for i in range(nt)}
+    entries={}
+    for i in range(nf):
+        r=struct.unpack_from('<7Q6I',archive,72+nt*32+i*80);name,kind,offset=r[:3];length=r[7]
+        assert offset%16==0 and offset+length<=len(archive) and types[kind]==1
+        entries[name]=(kind,archive[offset:offset+length])
+    lua_kind,body=entries[murmur64(RESOURCE.encode())]
+    assert lua_kind==0xa14e8dfa2cd117e2 and struct.unpack_from('<II',body)==(len(SOURCE),2)
+    assert body[8:]==SOURCE and SOURCE.startswith(b'-- HD2-Addon: '+RESOURCE.encode())
+    pkg_kind,pkg=entries[0x25b8cff26c7c0112]
+    assert pkg_kind==0xad9c6d9ed1e5e77a and pkg==ems_package()
+    fixture=json.loads((ROOT/'tests/fixtures/ems_packages_build25480438.json').read_text())
+    base=bytes.fromhex(fixture['base_header_hex'])+b''.join(struct.pack('<QQ',int(t,16),int(n,16)) for t,n in fixture['base'])
+    assert hashlib.sha256(base).hexdigest()==fixture['base_sha256']
+    items=list(struct.iter_unpack('<QQ',pkg[16:]))
+    assert struct.unpack_from('<I',pkg,8)[0]==len(items)==19 and len(set(items))==19
+    assert all((int(t,16),int(n,16)) in items for t,n in fixture['base']+fixture['ems'])
+    assert (0xa8193123526fad64,int(fixture['required_particle'],16)) in items
+    assert (0x535a7bd3e650d799,int(fixture['required_audio_bank'],16)) in items
+    assert pkg[:8]==base[:8] and pkg[12:16]==base[12:16]
+    print('PASS native 120mm dependencies preserved and all EMS dependencies included')
     report={'status':'OFFLINE_PASSED','game_build':25480438,'source_sha256':hashlib.sha256(SOURCE).hexdigest(),
-        'test_groups':len(cases)+3+(1 if provider else 0),'ingame_tested':False,'multiplayer_tested':False,
+        'version':'0.1.1','test_groups':len(cases)+4+(1 if provider else 0),'ingame_tested':False,'multiplayer_tested':False,
+        'ems_package_sha256':hashlib.sha256(pkg).hexdigest(),
+        'package_fixture_sha256':hashlib.sha256((ROOT/'tests/fixtures/ems_packages_build25480438.json').read_bytes()).hexdigest(),
+        'ems_dependency_count_added':len(items)-len(fixture['base']),
+        'prior_user_feedback':'v0.1.0: projectile visible but EMS field visuals missing; stun not confirmed; own lobby',
         'external_menu_verification':provider,
         'policy':{'spread_field':10,'rounds_per_salvo':7,'base_salvos':5,'current_damage':True},
         'fixture_origin':FIXTURE['origin']}

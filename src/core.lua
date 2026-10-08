@@ -2,7 +2,7 @@
 -- Restores the native 2025 HE/EMS delta; leaves current damage and upgrades intact.
 local previous=rawget(_G,'Reckoning120mm')
 if previous then return previous end
-local S={version='0.1.0',phase='waiting',elapsed=0,owned={},writes=0,cleanup_attempts=0}
+local S={version='0.1.1',phase='waiting',elapsed=0,owned={},writes=0,cleanup_attempts=0}
 rawset(_G,'Reckoning120mm',S)
 local ffi=require('ffi')
 local kernel={}
@@ -234,7 +234,9 @@ local function initialize()
         or bytes:sub(29,32)~=float(2) or bytes:sub(37,40)~=float(27) or bytes:sub(65,96)~=BASE_SEQUENCE then
         error('120mm baseline differs; another mod or event may be active',0)
     end
-    -- All three use the same native orbital projectile model; no asset aliases.
+    -- All three use the same model, but EMS has additional impact particles
+    -- and audio. The archive also extends the 120mm loadout package with the
+    -- native OrbitalStun dependencies before mission resource loading.
     for _,t in ipairs{74,194,137}do
         local a=ptr(S.base+ADDRESS.projectiles+t*8);local pr=a and read(a,160)
         if not pr then return false end
@@ -301,5 +303,5 @@ function update(dt,...)
     local ok,why=pcall(tick,dt);if not ok then stop(tostring(why))end
     return old_update(dt,...)
 end
-log('Loaded: Bingus Shared Loader v18 / API 1; supported Steam build 25480438')
+log('Loaded v'..S.version..': Bingus Shared Loader v18 / API 1; Steam build 25480438; EMS package dependencies included')
 return S

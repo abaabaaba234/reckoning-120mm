@@ -1,0 +1,101 @@
+{
+  "origin": "Extracted from currently installed Steam build 25480438 using filediver v0.7.55 on 2026-10-08",
+  "archive": "9ba626afa44a3aa3",
+  "package": "25b8cff26c7c0112",
+  "package_type": "ad9c6d9ed1e5e77a",
+  "base_header_hex": "010000001a5ae5e60e00000000000000",
+  "base_sha256": "a6267587cc96805c8e9fd9d8b2f3b3290bfb627ad264ba3a089f30efe550f2fc",
+  "ems_package": "1e6c958b95568dd7",
+  "ems_sha256": "61af0fb3713004af615950e28ad06f7e24cbef86d71b5bf108ca65f0e2b7b976",
+  "base": [
+    [
+      "535a7bd3e650d799",
+      "218d61959f181c48"
+    ],
+    [
+      "a8193123526fad64",
+      "0534ff3653cc0cee"
+    ],
+    [
+      "a8193123526fad64",
+      "31798a36af6c43de"
+    ],
+    [
+      "a8193123526fad64",
+      "36b23284931c9124"
+    ],
+    [
+      "a8193123526fad64",
+      "61a844a05923db53"
+    ],
+    [
+      "a8193123526fad64",
+      "68358a1cc55afddb"
+    ],
+    [
+      "af32095c82f2b070",
+      "218d61959f181c48"
+    ],
+    [
+      "cd4238c6a0c69e32",
+      "a4fb76f063a8b2f4"
+    ],
+    [
+      "cd4238c6a0c69e32",
+      "e65ac7c6a4fccbe8"
+    ],
+    [
+      "eac0b497876adedf",
+      "05c055c2362dcf06"
+    ],
+    [
+      "eac0b497876adedf",
+      "9eca3c1bd4516f41"
+    ],
+    [
+      "eac0b497876adedf",
+      "c2577f2c8ba46ff7"
+    ],
+    [
+      "eac0b497876adedf",
+      "d557014d64ef34cf"
+    ],
+    [
+      "eac0b497876adedf",
+      "e56fd3baa0391022"
+    ]
+  ],
+  "ems": [
+    [
+      "504b55235d21440e",
+      "08f8d57ae2edb862"
+    ],
+    [
+      "504b55235d21440e",
+      "aa643e63d90bee17"
+    ],
+    [
+      "535a7bd3e650d799",
+      "19f0ea7f8790bf4c"
+    ],
+    [
+      "a8193123526fad64",
+      "0534ff3653cc0cee"
+    ],
+    [
+      "a8193123526fad64",
+      "424630bfe2ff5e99"
+    ],
+    [
+      "a8193123526fad64",
+      "61a844a05923db53"
+    ],
+    [
+      "af32095c82f2b070",
+      "19f0ea7f8790bf4c"
+    ]
+  ],
+  "required_particle": "424630bfe2ff5e99",
+  "required_audio_bank": "19f0ea7f8790bf4c",
+  "finding": "The base 120mm loadout package lacks the EMS impact particle and EMS audio dependencies."
+}
