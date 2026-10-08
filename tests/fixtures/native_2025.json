@@ -1,0 +1,27 @@
+{
+  "origin": "filediver v0.7.55 embedded decoded metadata; runtime rejects differing PE, accessor, layout and baseline; not a live capture",
+  "wiki": "https://helldivers.wiki.gg/wiki/Festival_of_Reckoning",
+  "decision": "User selected native spread field 10 and current game damage on 2026-10-08",
+  "baseline_row_hex": "00000000030000000000403f0000000000000000000000000500000000000040000000000000d8410000000000803b4500000000000000000000000001000000c200000089000000890000000000000000000000000000000000000000000000000000000000000053db2359a044a86100000000000000000000000001000000000000000000000000000000b8104fd172a68b380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "delta": {
+    "resource": "ae4d54f6cb8cc350",
+    "changes": [
+      {
+        "offset": 64,
+        "data": "4a000000c20000008900000089000000c2000000890000008900000000000000"
+      },
+      {
+        "offset": 4,
+        "data": "07000000"
+      },
+      {
+        "offset": 24,
+        "data": "05000000"
+      },
+      {
+        "offset": 36,
+        "data": "00002041"
+      }
+    ]
+  }
+}
